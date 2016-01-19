@@ -6,25 +6,23 @@ public class GameManager : MonoBehaviour {
 
 	// Currency 
 	public float veto;
-	public int vetoDropped;
+	public int	vetoDropped;
 	public Text vetoDisplay;
 
 	// Damage
 	public float tapDamage;
 	public int dps;
 	public Text damageDisplay;
-	
+
 	// Heroes
 	public Hero[] heroes;
 	
 	// Health
-	public float health;
-	public float maxHealth;
-	private float baseHealth;
 	public Image healthBar;
 	public Text healthDisplay;
 	
 	// Monster 
+	public Monster monster;
 	public Text monsterDisplay;
 	private int monstersKilled;
 	
@@ -34,29 +32,41 @@ public class GameManager : MonoBehaviour {
 	public int maxStage;
 	
 	void Start () {
+		monster = new Monster (currentStage, MonsterType.NORMAL);
 		StartCoroutine (AutoTick ());
-		baseHealth = maxHealth;	
 	}
 	
 	void Update () {
 		vetoDisplay.text = veto.ToString("n0");
-		healthDisplay.text = health.ToString("n0");
+		healthDisplay.text = monster.health.ToString("n0");
 		damageDisplay.text = tapDamage.ToString("n0") + " " + "damage";
 		monsterDisplay.text = monstersKilled.ToString() + " " + "/" + " " + "12";
 		
-		healthBar.GetComponent<Image>().fillAmount = health / maxHealth;
+		healthBar.GetComponent<Image>().fillAmount = (float)(monster.health / monster.maxHealth);
 
 		// healthBar.rectTransform.rect.width = maxHealth;
 				
-		if (health <= 0) {
-			maxHealth = baseHealth * Mathf.Pow (1.2f, monstersKilled);
-			health = 0;
-			veto += vetoDropped;
-			monstersKilled++;
-			health = maxHealth;
+		if (monster.health <= 0) {
+			KilledMonster();
 		}
 	}
-	
+
+	void 		StageHandler() {
+		monstersKilled++;
+		if (monstersKilled > 12) 
+		{
+			monstersKilled = 0;
+			currentStage++;
+		}
+
+	}
+
+	void 		KilledMonster()	{
+		StageHandler ();
+		veto += vetoDropped;
+		monster = new Monster (currentStage, MonsterType.NORMAL);
+	}
+
 	public float GetDPS () {
 		float tick = 0;
 		
@@ -67,7 +77,7 @@ public class GameManager : MonoBehaviour {
 	}
 	
 	public void AutoDPS () {
-		health -= GetDPS () / 10;
+		monster.health -= GetDPS () / 10;
 	}
 	
 	IEnumerator AutoTick () {

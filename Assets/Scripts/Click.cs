@@ -6,6 +6,6 @@ public class Click : MonoBehaviour {
 	public GameManager gm;
 	
 	public void Clicked () {
-		gm.health -= gm.tapDamage;
+		gm.monster.health -= gm.tapDamage;
 	}
 }
