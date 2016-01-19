@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour {
 
 	void 		StageHandler() {
 		monstersKilled++;
-		if (monstersKilled > 12) 
+		if (monstersKilled > 10) 
 		{
 			monstersKilled = 0;
 			currentStage++;
