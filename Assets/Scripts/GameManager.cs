@@ -44,12 +44,12 @@ public class GameManager : MonoBehaviour {
 		damageDisplay.text = tapDamage.ToString("n0") + " " + "damage";
 		monsterDisplay.text = monstersKilled.ToString() + " " + "/" + " " + "12";
 		
-		maxHealth = baseHealth * Mathf.Pow (1.2f, monstersKilled);
-		
+		healthBar.GetComponent<Image>().fillAmount = health / maxHealth;
+
 		// healthBar.rectTransform.rect.width = maxHealth;
 				
 		if (health <= 0) {
-			healthBar.GetComponent<Image>().fillAmount = health / maxHealth;
+			maxHealth = baseHealth * Mathf.Pow (1.2f, monstersKilled);
 			health = 0;
 			veto += vetoDropped;
 			monstersKilled++;
