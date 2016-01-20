@@ -5,9 +5,11 @@ public class StageManager {
 	public int currentStage;
 	public int maxStage;
 	public int stageMonsterCounter;
+	public GameManager gameManager;
 
-	public StageManager() {
+	public StageManager(GameManager gm) {
 		currentStage = 0;
+		gameManager = gm;
 	}
 
 	public MonsterType 	GetNewMonsterType(MonsterType killedMonster) {

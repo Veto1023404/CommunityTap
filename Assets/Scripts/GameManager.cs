@@ -29,17 +29,17 @@ public class GameManager : MonoBehaviour {
 
 	// Rounds
 	public StageManager stageManager;
-	private float		bossTimer;
+	public float		bossTimer;
 
 	void Start () {
-		stageManager = new StageManager ();
-		monster = new Monster (stageManager.currentStage, MonsterType.NORMAL);
-		bossTimer = 0;
+		stageManager = new StageManager (this);
+		monster = new Monster (stageManager.currentStage, MonsterType.NORMAL, this);
+		bossTimer = 30;
 		StartCoroutine (AutoTick ());
 	}
 	
 	void Update () {
-		vetoDisplay.text = veto.ToString("n0");
+		vetoDisplay.text = veto.ToString("n0") + "\n" + stageManager.currentStage.ToString();
 		healthDisplay.text = monster.health.ToString("n0");
 		damageDisplay.text = tapDamage.ToString("n0") + " " + "damage";
 		monsterDisplay.text = stageManager.stageMonsterCounter.ToString() + " " + "/" + " " + "12";
@@ -47,18 +47,18 @@ public class GameManager : MonoBehaviour {
 		healthBar.GetComponent<Image>().fillAmount = (float)(monster.health / monster.maxHealth);
 
 		if (monster.type == MonsterType.BOSS) {
-			bossTimer += Time.deltaTime;
+			bossTimer -= Time.deltaTime;
+			vetoDisplay.text += " " + bossTimer.ToString("F2"); 
 //			Debug.Log (bossTimer);
-			if (bossTimer >= 30) {
+			if (bossTimer <= 0) {
 				NewMonsterType = stageManager.FailedBoss();
-				monster = new Monster(stageManager.currentStage, NewMonsterType);
-				bossTimer = 0;
+				monster = new Monster(stageManager.currentStage, NewMonsterType, this);
 			}
 		}
 				
 		if (monster.health <= 0) {
 			NewMonsterType = stageManager.GetNewMonsterType(monster.type);
-			monster = new Monster(stageManager.currentStage, NewMonsterType);
+			monster = new Monster(stageManager.currentStage, NewMonsterType, this);
 			veto += vetoDropped;
 		}
 	}

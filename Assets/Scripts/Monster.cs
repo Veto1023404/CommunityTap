@@ -10,11 +10,14 @@ public class Monster
 		public 	double health;
 		public 	double maxHealth;
 		public  MonsterType type;
+		public	GameManager gameManager;
 
-		public Monster(int stage, MonsterType newtype){
+
+		public Monster(int stage, MonsterType newtype, GameManager gm){
 			maxHealth = baseHealth * Mathf.Pow (1.2f, stage);
 			type = newtype;
-			health = maxHealth; 
+			health = maxHealth;
+			gameManager = gm;
 			if (type == MonsterType.MINIBOSS)
 				maxHealth = health *= 1.2;
 			else if (type == MonsterType.BOSS)
@@ -23,6 +26,8 @@ public class Monster
 		}
 		
 		~Monster() {
+			if (type == MonsterType.BOSS)
+				gameManager.bossTimer = 30;
 			Debug.Log("Monster Destroyed");
 		}
 }
