@@ -25,14 +25,14 @@ public class GameManager : MonoBehaviour {
 	public Monster monster;
 	public Text monsterDisplay;
 	private int monstersKilled;
-	
+	private MonsterType NewMonsterType;
+
 	// Rounds
-	public int stageAmount;
-	public int currentStage;
-	public int maxStage;
-	
+	public StageManager stage_manager;
+
 	void Start () {
-		monster = new Monster (currentStage, MonsterType.NORMAL);
+		stage_manager = new StageManager ();
+		monster = new Monster (stage_manager.currentStage, MonsterType.NORMAL);
 		StartCoroutine (AutoTick ());
 	}
 	
@@ -47,24 +47,11 @@ public class GameManager : MonoBehaviour {
 		// healthBar.rectTransform.rect.width = maxHealth;
 				
 		if (monster.health <= 0) {
-			KilledMonster();
+			NewMonsterType = stage_manager.GetNewMonsterType(monster.type);
+			monster = new Monster(stage_manager.currentStage, NewMonsterType);
+			veto += vetoDropped;
+
 		}
-	}
-
-	void 		StageHandler() {
-		monstersKilled++;
-		if (monstersKilled > 10) 
-		{
-			monstersKilled = 0;
-			currentStage++;
-		}
-
-	}
-
-	void 		KilledMonster()	{
-		StageHandler ();
-		veto += vetoDropped;
-		monster = new Monster (currentStage, MonsterType.NORMAL);
 	}
 
 	public float GetDPS () {
