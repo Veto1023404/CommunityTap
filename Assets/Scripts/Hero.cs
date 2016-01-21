@@ -24,10 +24,10 @@ public class Hero : MonoBehaviour {
 	
 	void Update () {
 		info.text = name + " " + "(" + amount + ")" + " " + 
-			"\nCost:" + " " + cost.ToString("n0") + 
-				"\nDPS:" + " " + dps.ToString("n1");
+					"\nCost:" + " " + cost.ToString("n0") + 
+					"\nDPS:" + " " + dps.ToString("n1");
 		
-		if (gm.veto >= cost)
+		if (gm.gold >= cost)
 			GetComponent<Image>().color = afford;
 		else
 			GetComponent<Image>().color = normal;
@@ -35,8 +35,8 @@ public class Hero : MonoBehaviour {
 	
 	// Applies to the item
 	public void PurchasedUpgrade () {
-		if (gm.veto >= cost) {
-			gm.veto -= cost;
+		if (gm.gold >= cost) {
+			gm.gold -= cost;
 			amount++;
 			dps = baseDPS * Mathf.Pow (1.18f, amount);
 			cost = Mathf.Round(baseCost * Mathf.Pow(1.22f, amount));

@@ -5,7 +5,7 @@ using System.Collections;
 public class GameManager : MonoBehaviour {
 
 	// Currency 
-	public float veto;
+	public double gold;
 	public int	vetoDropped;
 	public Text vetoDisplay;
 
@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour {
 	}
 	
 	void Update () {
-		vetoDisplay.text = veto.ToString("n0") + "\n" + stageManager.currentStage.ToString();
+		vetoDisplay.text = gold.ToString("n0") + "\n" + stageManager.currentStage.ToString();
 		healthDisplay.text = monster.health.ToString("n0");
 		damageDisplay.text = tapDamage.ToString("n0") + " " + "damage";
 		monsterDisplay.text = stageManager.stageMonsterCounter.ToString() + " " + "/" + " " + "12";
@@ -49,7 +49,6 @@ public class GameManager : MonoBehaviour {
 		if (monster.type == MonsterType.BOSS) {
 			bossTimer -= Time.deltaTime;
 			vetoDisplay.text += " " + bossTimer.ToString("F2"); 
-//			Debug.Log (bossTimer);
 			if (bossTimer <= 0) {
 				NewMonsterType = stageManager.FailedBoss();
 				monster = new Monster(stageManager.currentStage, NewMonsterType, this);
@@ -58,9 +57,18 @@ public class GameManager : MonoBehaviour {
 				
 		if (monster.health <= 0) {
 			NewMonsterType = stageManager.GetNewMonsterType(monster.type);
+			gold += GetGoldFromMonster(monster.type, stageManager.currentStage);
 			monster = new Monster(stageManager.currentStage, NewMonsterType, this);
-			veto += vetoDropped;
 		}
+	}
+
+	public float GetGoldFromMonster (MonsterType type, int stage) {
+		if (type == MonsterType.NORMAL)
+			return (1 * Mathf.Pow (1.1f, stage));
+		else if (type == MonsterType.MINIBOSS)
+			return (1 * Mathf.Pow (1.1f, stage) * 1.5f);
+		else
+			return (1 * Mathf.Pow (1.1f, stage) * 2f);
 	}
 
 	public float GetDPS () {

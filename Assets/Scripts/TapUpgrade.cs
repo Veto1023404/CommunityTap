@@ -27,15 +27,15 @@ public class TapUpgrade : MonoBehaviour {
 		"\nCost:" + " " + cost.ToString("n0") + 
 		"\nDamage:" + " " + damage.ToString("n1");
 		
-		if (gm.veto >= cost)
+		if (gm.gold >= cost)
 			GetComponent<Image>().color = afford;
 		else
 			GetComponent<Image>().color = normal;
 	}
 	
 	public void PurchasedUpgrade () {
-		if (gm.veto >= cost) {
-			gm.veto -= cost;
+		if (gm.gold >= cost) {
+			gm.gold -= cost;
 			amount++;
 			gm.tapDamage += damage;
 			damage = baseDamage * Mathf.Pow (1.16f, amount);
