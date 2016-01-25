@@ -18,8 +18,12 @@ public class Hero : MonoBehaviour {
 	private Color normal = Color.white;
 	
 	void Start () {
-		baseCost = cost;
-		baseDPS = dps;
+		baseCost = cost = 10;
+		baseDPS = dps = 2;
+		name = "Sachulus the Great";
+		info = this.gameObject.GetComponentInChildren<Text>();
+		gm = GameObject.Find ("GameManager").GetComponent<GameManager>();
+		GetComponent<Button>().onClick.AddListener(delegate { PurchasedUpgrade(); });
 	}
 	
 	void Update () {
@@ -32,7 +36,11 @@ public class Hero : MonoBehaviour {
 		else
 			GetComponent<Image>().color = normal;
 	}
-	
+
+	public void SetupButton () {
+		var button = transform.GetComponent<Button>();
+		button.onClick.AddListener(this.PurchasedUpgrade);
+	}
 	// Applies to the item
 	public void PurchasedUpgrade () {
 		if (gm.gold >= cost) {
