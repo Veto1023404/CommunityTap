@@ -12,28 +12,28 @@ public class StageManager {
 		gameManager = gm;
 	}
 
-	public MonsterType 	GetNewMonsterType(MonsterType killedMonster) {
+	public MonsterRank 	GetNewMonsterType(MonsterRank killedMonster) {
 		stageMonsterCounter++;
-		if (killedMonster == MonsterType.BOSS) {
+		if (killedMonster == MonsterRank.BOSS) {
 			currentStage++;
 			stageMonsterCounter = 1;
 			Debug.Log ("Current stage : " + currentStage);
 		}
 		if (stageMonsterCounter <= 10) 
-			return MonsterType.NORMAL;
+			return MonsterRank.NORMAL;
 		else if (stageMonsterCounter % 11 == 0)
-			return MonsterType.MINIBOSS;
+			return MonsterRank.MINIBOSS;
 		else if (stageMonsterCounter % 12 == 0)
-			return MonsterType.BOSS;
+			return MonsterRank.BOSS;
 		else
-			return MonsterType.NORMAL;
+			return MonsterRank.NORMAL;
 	}
 
-	public MonsterType 	FailedBoss()
+	public MonsterRank 	FailedBoss()
 	{
 		stageMonsterCounter = 10;
 		Debug.Log("Failed Boss");
-		return MonsterType.NORMAL;
+		return MonsterRank.NORMAL;
 	}
 
 	~StageManager() {
