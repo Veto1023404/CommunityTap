@@ -49,8 +49,8 @@
      <Compile Include="Assets\Scripts\CoinDestroyer.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\Hero.cs" />
-     <Compile Include="Assets\Scripts\HeroDPS.cs" />
      <Compile Include="Assets\Scripts\Monster.cs" />
+     <Compile Include="Assets\Scripts\SaveClass.cs" />
      <Compile Include="Assets\Scripts\StageManager.cs" />
      <Compile Include="Assets\Scripts\TapUpgrade.cs" />
  <Reference Include="UnityEngine.UI">

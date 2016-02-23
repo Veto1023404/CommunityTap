@@ -8,7 +8,6 @@ public class StageManager {
 	public GameManager gameManager;
 
 	public StageManager(GameManager gm) {
-		currentStage = 0;
 		gameManager = gm;
 	}
 
@@ -37,6 +36,5 @@ public class StageManager {
 	}
 
 	~StageManager() {
-		Debug.Log ("StageManager Destroyed");
 	}
 }
